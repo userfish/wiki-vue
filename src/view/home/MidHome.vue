@@ -1,10 +1,14 @@
 <template>
-
+  <Index/>
 </template>
 
 <script>
+import Index from "@/view/center/Index";
+
 export default {
-  name: "MidHome"
+  components:{
+    Index
+  }
 }
 </script>
 

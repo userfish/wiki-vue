@@ -4,14 +4,14 @@
     <v-navigation-drawer
         app
         :value=visit
-        :src="require('../../assets/right-back.png')"
+        :src="require('@/assets/right-back.png')"
         fixed
     >
       <RightHome/>
     </v-navigation-drawer>
 
     <v-img
-        :src="require('../../assets/backgroup.jpg')"
+        :src="require('@/assets/backgroup.jpg')"
     >
       <v-app-bar app
                  :value=true
@@ -21,15 +21,18 @@
                  :collapse=!visit
                  :collapse-on-scroll=true
       >
-        <v-img
-            :src="require('@/assets/icon.jpeg')"
-            contain
-            height=65
-            width=65
-        >
 
-          <v-app-bar-nav-icon @click="getApp()"></v-app-bar-nav-icon>
-        </v-img>
+
+          <v-app-bar-nav-icon @click="getApp()"
+                              style="color: rgba(0,0,0,0)"
+          ><v-img
+              :src="require('@/assets/icon.png')"
+              contain
+              height=65
+              width=65
+              align=left
+          />
+          </v-app-bar-nav-icon>
         <TopHome/>
       </v-app-bar>
 
