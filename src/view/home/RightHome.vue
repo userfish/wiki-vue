@@ -38,8 +38,10 @@
 
 <script>
 import TopHome from "@/view/home/TopHome";
-import { mdiAccount } from '@mdi/js';
 import eventVue from "@/js/eventVue";
+
+import request from '@/api/home/index'
+
 
 export default {
   name: "RightHome",
@@ -56,8 +58,7 @@ export default {
 
     ],
     colors: ['deep-purple accent-4', 'error', 'teal darken-1',"green","pink","orange"],
-    items: [...Array(4)].map((_, i) => `Item ${i}`),
-    pass: "测试"
+    subList:[]
   }),
   comments:{
     TopHome,
@@ -65,56 +66,32 @@ export default {
   props:['data.pass'],
   methods:{
     //收藏标签跳转
-    routeTop(id){
-      console.log("应用标签跳转"+id);
-      switch (id){
-        case "v-index":
-          this.btns = [
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', 'lg'],
-            ['图片', 'b-xl'],
-          ];break;
-        case "v-label":
-          this.btns = [
-            ['技术', '0'],
-            ['案例', '0'],
-            ['素材', '0'],
-            ['游戏', '0'],
-            ['视频', '0'],
-            ['其它', 'b-xl'],
-          ];break;
-        case "v-tool":
-          this.btns = [
-            ['在线视频播放', '0'],
-            ['在线解压', '0'],
-            ['文本提取', '0'],
-            ['格式转换', '0'],
-            ['webrtc直播', '0'],
-            ['其它', 'b-xl'],
-          ];break;
-        case "v-blog":
-          this.btns = [
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', 'lg'],
-            ['图片', 'b-xl'],
-          ];break;
-        case "v-self":
-          this.btns = [
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', '0'],
-            ['图片', 'lg'],
-            ['图片', 'b-xl'],
-          ];break;
-      }
-      eventVue .$emit("myFun",this.btns);
+    routeTop(leftType){
+      console.log("应用标签跳转"+leftType);
+      //请求tophome的数据类型
+      request.getRequest('/back-home/getTopData',{leftType: leftType}).then(response => {
+
+        //父节点
+        let list = response.data.topList;
+        // console.log(response);
+        this.btns = [];
+        for (let i = 0; i < list.length; i++) {
+          this.btns.push([list[i],true])
+          // console.log(this.btns)
+        }
+        eventVue .$emit("myFun",this.btns);
+
+        //子节点
+        this.subList = response.data.subList;
+        console.log(this.subList)
+        eventVue .$emit("topChildFun",this.subList);
+
+        eventVue .$emit("midFun",leftType);
+      }).catch(error => {
+        console.error(error)
+      })
+      console.log(this.btns)
+
       },
     test(id){
       console.log(id+this.pass)
